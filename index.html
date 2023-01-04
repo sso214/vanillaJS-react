@@ -9,53 +9,6 @@
 </head>
 <body>
 <div id="app"></div>
-<script>
-
-  class Component {
-    $target;
-    $state;
-    constructor($target) {
-      this.$target = $target;
-      this.setup();
-      this.render();
-    }
-    setup() {}
-    template() { return ''; }
-    setEvent() {}
-
-    render() {
-      this.$target.innerHTML = this.template();
-      this.setEvent();
-    }
-    setState(newState) {
-      this.$state = { ...this.$state, ...newState };
-      this.render();
-    }
-  }
-
-  class App extends Component {
-    setup() {
-      this.$state = { items: ['item1', 'item2', 'item3'] };
-    }
-    template() {
-      const { items } = this.$state;
-      return `
-        <ul>
-          ${items.map(item => `<li>${item}</li>`).join('')}
-          <button>Add Item</button>
-        </ul>
-      `;
-    }
-    setEvent() {
-      this.$target.querySelector('button').addEventListener('click', () => {
-        const { items } = this.$state;
-        this.setState({ items: [...items, `item${items.length + 1}`] });
-      });
-    }
-  }
-
-  new App(document.querySelector('#app'));
-
-</script>
+<script src="./src/app.js" type="module"></script>
 </body>
 </html>
