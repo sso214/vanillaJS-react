@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VanillaJS React</title>
+</head>
+<body>
+<div id="app"></div>
+<script>
+  const $app = document.querySelector('#app');
+
+  let state = {
+    items: ['item1', 'item2', 'item3']
+  }
+
+  const render = () => {
+    const { items } = state;
+    $app.innerHTML = `
+      <ul>
+        ${items.map((item => `<li>${item}</li>`)).join('')}
+      </ul>
+      <button id="append">추가</button>
+    `;
+    document.querySelector('#append').addEventListener('click', () => {
+      setState({ items: [...items, `item${items.length + 1}`] });
+    });
+  }
+
+  const setState = (newState) => {
+    state = {...state, ...newState};
+    render();
+  }
+
+  render();
+</script>
+</body>
+</html>
