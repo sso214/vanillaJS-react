@@ -8,15 +8,28 @@ export default class Items extends Component {
     const { items } = this.$state;
     return `
       <ul>
-        ${items.map(item => `<li>${item}</li>`).join('')}
-        <button>Add Item</button>
+        ${items.map((item, key) => `
+          <li>
+            ${item}
+            <button class="deleteBtn" data-key="${key}">Delete</button>
+          </li>
+        `).join('')}
       </ul>
+      <button class="addBtn">Add Item</button>
     `;
   }
   setEvent() {
-    this.$target.querySelector('button').addEventListener('click', () => {
+    this.$target.querySelector('.addBtn').addEventListener('click', () => {
       const { items } = this.$state;
       this.setState({ items: [...items, `item${items.length + 1}`] })
+    });
+
+    this.$target.querySelectorAll('.deleteBtn').forEach(deleteBtn => {
+      deleteBtn.addEventListener('click', ({ target }) => {
+        const items = [ ...this.$state.items ];
+        items.splice(target.dataset.key, 1);
+        this.setState({ items });
+      });
     });
   }
 }
