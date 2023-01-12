@@ -1,34 +1,26 @@
-export default class Component {
-  $target;
-  $props;
-  $state;
-  constructor($target, $props) {
-    this.$target = $target;
-    this.$props = $props;
+import { observable, observe } from './observer.js';
+
+export class Component {
+  state; props; $el;
+
+  constructor ($el, props) {
+    this.$el = $el;
+    this.props = props;
     this.setup();
-    this.setEvent();
-    this.render();
   }
-  setup() {}
-  mounted() {}
-  template() { return ''; }
-  setEvent() {}
 
-  render() {
-    this.$target.innerHTML = this.template();
-    this.mounted();
+  setup() {
+    this.state = observable(this.initState());
+    observe(() => {
+      this.render();
+      this.setEvent();
+      this.mounted();
+    });
   }
-  setState(newState) {
-    this.$state = { ...this.$state, ...newState };
-    this.render();
-  }
-  addEvent(eventType, selector, callback) {
-    const children = [...this.$target.querySelectorAll(selector)];
-    const isTarget = (target) => children.includes(target) || target.closest(selector);
 
-    this.$target.addEventListener(eventType, (event) => {
-      if (!isTarget(event.target)) return false;
-      callback(event);
-    })
-  }
+  initState() { return {} }
+  template () { return ''; }
+  render () { this.$el.innerHTML = this.template(); }
+  setEvent () {}
+  mounted () {}
 }
